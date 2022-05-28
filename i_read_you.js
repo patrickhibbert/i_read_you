@@ -10,6 +10,7 @@
 // global variables
 var backgroundColour
 var mode
+var tutorialScreen
 var points = []
 var mult = 0.005
 
@@ -23,9 +24,11 @@ function preload() {
 
 // project setup elements, including cavas size
 function setup() {
+  tutorialScreen =  0;
   createCanvas(1750, 950);
   textFont(font);
   background(30);
+
 
   // Setup for the flow field animation (constructed below)
   var density = 30
@@ -40,6 +43,16 @@ function setup() {
 }
 
 function draw() {
+  if (tutorialScreen == 0) {
+    welcomeScreen();
+  } else if (tutorialScreen == 1) {
+    tutorialScreen();
+  } else if (tutorialScreen == 2) {
+    tutorialOverScreen();
+    }
+}
+
+function welcomeScreen() {
   // Welcome page / splash screen to introduce the user to the project
   // Flow field animation is used to set the tone of the project
   // Animation will be positioned inside the lenses of a pair of glasses (constructed below)
@@ -89,4 +102,17 @@ function draw() {
   circle(1130, 430, 440);
   // Component: Bridge
   arc(873, 408, 140, 140, PI + QUARTER_PI, TWO_PI - QUARTER_PI);
+  }
+
+function tutorialScreen() {
+}
+
+function mousePressed() {
+  if (tutorialScreen == 0) {
+    startTutorial();
+  }
+}
+
+function startTutorial() {
+  tutorialScreen = 1;
 }
