@@ -95,7 +95,7 @@ function welcomeScreen() {
   text('Patrick Hibbert', 60, 800);
   // Apply flashing text to guide user input
   strokeWeight(2);
-  fill(200 + sin(frameCount*0.06) * 128);
+  fill(255, 210, 0 + sin(frameCount*0.08) * 255);
   textSize(40);
   text('Press ENTER to Begin...', 1320, 810);
 
@@ -117,13 +117,21 @@ function tutorialIntroScreen1() {
   background(30);
    // Apply flashing text to guide user input
    strokeWeight(1);
-   fill(200 + sin(frameCount*0.1) * 128);
+   fill(255, 210, 0 + sin(frameCount*0.08) * 255);
    textSize(30);
    text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
    // Introduction text (no effects applied)
    noFill();
    textSize(40);
-   text('Welcome to...', 60, 60);
+   // Text Block (1)
+   text('"I Read You" is an application designed to teach people', 865, 200);
+   text('sign language (AUSLAN).', 865, 250);
+   // Text Block (2)
+   text('AUSLAN is the predominant sign language of the', 865, 400);
+   text('Australian Deaf Community', 865, 450);
+   // Text Block (3)
+   text('Nearly 20,000 people converse with AUSLAN each day.', 865, 600);
+   text('This tutorial will show you just how easy it is!', 865, 650);
   }
 
 function tutorialIntroScreen2() {
@@ -132,10 +140,16 @@ function tutorialIntroScreen2() {
   background(30);
   // Apply flashing text to guide user input
   strokeWeight(1);
-  fill(200 + sin(frameCount*0.1) * 128);
+  fill(255, 210, 0 + sin(frameCount*0.08) * 255);
   textSize(30);
   text('Press "S" to Start...', 1464, 810);
-
+   // Explanatory text (no effects applied)
+   noFill();
+   textSize(40);
+   // Text Block
+   text('This tutorial uses the webcam to read your gestures.', 865, 370);
+   text('For accurate results, make sure you are in a well-lit', 865, 420);
+   text('space and the camera is positioned toward your hands.', 865, 470);
 }
 
 function tutorialCanvas() {
@@ -157,9 +171,6 @@ function keyPressed() {
   // Pressing the 'LEFT_ARROW' key paginates back on the tutorial intro
   } else if (keyCode === LEFT_ARROW) {
     tutorialScreen = 1;
-  // Pressing the 'OPTION' returns the user to the home screen
-  } else if (keyCode === OPTION) {
-    tutorialScreen = 0;
   }
 }
 
