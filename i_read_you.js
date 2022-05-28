@@ -18,7 +18,7 @@ let font;
 // fonts are pre-loaded for use by the application
 // the assets directory is referenced as the location for each file
 function preload() {
-  font = loadFont('assets/offside_font.ttf');
+  font = loadFont('assets/genos_font.ttf');
 }
 
 // project setup elements, including cavas size
@@ -64,19 +64,19 @@ function draw() {
   }
   
   // Text is used to welcome the user to the application
-  textSize(30);
-  text('Welcome to', 30, 50);
+  textSize(40);
+  text('Welcome to...', 40, 60);
   fill(200);
-  textSize(45);
-  text('"I Read You"', 30, 100);
-  textSize(20);
-  text('hosted By', 30, 610);
-  textSize(30);
-  text('Patrick hibbert', 30, 645);
-  textSize(25);
-  text('pRess enter', windowWidth - 280, 610);
-  textSize(25);
-  text('To beGin...', windowWidth - 280, 645);
+  textSize(90);
+  text('"I Read You"', 40, 130);
+  textSize(35);
+  text('Hosted By', 40, 760);
+  textSize(50);
+  text('Patrick Hibbert', 40, 800);
+  strokeWeight(2);
+  fill(200 + sin(frameCount*0.06) * 128);
+  textSize(40);
+  text('Press ENTER to Begin...', 1320, 810);
 
   // Create the shape(s), position and style of the glasses
   stroke(255);
