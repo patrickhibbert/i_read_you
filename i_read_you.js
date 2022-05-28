@@ -53,7 +53,7 @@ function draw() {
   } else if (tutorialScreen == 2) {
     tutorialIntroScreen2();
   } else if (tutorialScreen == 3) {
-    tutorialScreen();
+    tutorialCanvas();
   } else if (tutorialScreen == 4) {
     tutorialOverScreen();
     }
@@ -120,8 +120,11 @@ function tutorialIntroScreen1() {
    fill(200 + sin(frameCount*0.1) * 128);
    textSize(30);
    text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
-
-}
+   // Introduction text (no effects applied)
+   noFill();
+   textSize(40);
+   text('Welcome to...', 60, 60);
+  }
 
 function tutorialIntroScreen2() {
   // Tutorial Intro page (2)
@@ -131,14 +134,14 @@ function tutorialIntroScreen2() {
   strokeWeight(1);
   fill(200 + sin(frameCount*0.1) * 128);
   textSize(30);
-  text('Click ANYWHERE to Begin...', 1374, 810);
+  text('Press "S" to Start...', 1464, 810);
 
 }
 
-function tutorialScreen() {
+function tutorialCanvas() {
   // Tutorial Page / Canvas
   // Full tutorial takes place on this page
-  background(90);
+  background(30);
 }
 
 function tutorialOverScreen() {
@@ -157,6 +160,13 @@ function keyPressed() {
   // Pressing the 'OPTION' returns the user to the home screen
   } else if (keyCode === OPTION) {
     tutorialScreen = 0;
+  }
+}
+
+function keyTyped() {
+  // When 'S' is typed, the tutorial screen is displayed
+  if (key === 's') {
+    tutorialScreen = 3;
   }
 }
 
