@@ -7,28 +7,41 @@
 //  Patrick Hibbert, s3664204
 //
 
-// global variables
+// Global variables
 var backgroundColour
 var mode
 var tutorialScreen
 var points = []
 var mult = 0.005
 
+// Create and name variables
+let video;
+let flippedVideo;
+let label = "";
 let font;
 let button;
+let classifier;
+let imageModelURL = 'https://teachablemachine.withgoogle.com/models/srEuXgicq/';
 
-// fonts are pre-loaded for use by the application
-// the assets directory is referenced as the location for each file
+// Fonts and sign language model are pre-loaded for use by the application
+// The assets directory is referenced as the location for each file
 function preload() {
   font = loadFont('assets/genos_font.ttf');
+  classifier = ml5.imageClassifier(imageModelURL + 'model.json');
 }
 
-// project setup elements (including cavas size and background colour)
+// Project setup elements (including Canvas and Video)
 function setup() {
   tutorialScreen =  0;
   createCanvas(1750, 950);
   textFont(font);
   background(30);
+  video = createCapture(VIDEO);
+  video.size(640, 480);
+  video.hide();
+
+  flippedVideo = ml5.flipImage(video);
+  classifyVideo();
 
   // Setup for the flow field animation (constructed below)
   var density = 30
@@ -95,7 +108,7 @@ function welcomeScreen() {
   text('Patrick Hibbert', 60, 800);
   // Apply flashing text to guide user input
   strokeWeight(2);
-  fill(255, 210, 0 + sin(frameCount*0.08) * 255);
+  fill(255, 210, 0 + sin(frameCount*0.2) * 255);
   textSize(40);
   text('Press ENTER to Begin...', 1320, 810);
 
@@ -117,7 +130,7 @@ function tutorialIntroScreen1() {
   background(30);
    // Apply flashing text to guide user input
    strokeWeight(1);
-   fill(255, 210, 0 + sin(frameCount*0.08) * 255);
+   fill(255, 210, 0 + sin(frameCount*0.2) * 255);
    textSize(30);
    text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
    // Introduction text (no effects applied)
@@ -140,7 +153,7 @@ function tutorialIntroScreen2() {
   background(30);
   // Apply flashing text to guide user input
   strokeWeight(1);
-  fill(255, 210, 0 + sin(frameCount*0.08) * 255);
+  fill(255, 210, 0 + sin(frameCount*0.2) * 255);
   textSize(30);
   text('Press "S" to Start...', 1464, 810);
    // Explanatory text (no effects applied)
@@ -156,6 +169,26 @@ function tutorialCanvas() {
   // Tutorial Page / Canvas
   // Full tutorial takes place on this page
   background(30);
+  image(flippedVideo, 0, 0);
+  fill(255);
+  textSize(16);
+  textAlign(CENTER);
+  text(label, width / 2, height - 4);
+}
+
+function classifyVideo() {
+  flippedVideo = ml5.flipImage(video)
+  classifier.classify(flippedVideo, gotResult);
+  flippedVideo.remove();
+}
+
+function gotResult(error, results) {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  label = results[0].label;
+  classifyVideo();
 }
 
 function tutorialOverScreen() {
