@@ -15,6 +15,7 @@ var points = []
 var mult = 0.005
 
 let font;
+let button;
 
 // fonts are pre-loaded for use by the application
 // the assets directory is referenced as the location for each file
@@ -22,7 +23,7 @@ function preload() {
   font = loadFont('assets/genos_font.ttf');
 }
 
-// project setup elements, including cavas size
+// project setup elements (including cavas size and background colour)
 function setup() {
   tutorialScreen =  0;
   createCanvas(1750, 950);
@@ -129,28 +130,33 @@ function tutorialIntroScreen2() {
   // Apply flashing text to guide user input
   strokeWeight(2);
   fill(200 + sin(frameCount*0.06) * 128);
-  textSize(40);
-  text('Press ENTER to Begin...', 1320, 810);
+  textSize(30);
+  text('Click ANYWHERE to Begin...', 1374, 810);
+
 }
 
 function tutorialScreen() {
   // Tutorial Page / Canvas
   // Full tutorial takes place on this page
-  background(30);
+  background(90);
 }
 
 function tutorialOverScreen() {
 }
 
 function keyPressed() {
-// when 'ENTER' is pressed at the welcome screen, the user 
-// is taken to the Tutorial Intro
+  // When 'ENTER' is pressed at the welcome screen, the user is taken to the Tutorial Intro
   if (keyCode === ENTER) {
     tutorialScreen = 1;
+  // Pressing the 'RIGHT_ARROW' key paginates next on the tutorial intro
   } else if (keyCode === RIGHT_ARROW) {
     tutorialScreen = 2;
+  // Pressing the 'LEFT_ARROW' key paginates back on the tutorial intro
   } else if (keyCode === LEFT_ARROW) {
     tutorialScreen = 1;
+  // Pressing the 'OPTION' returns the user to the home screen
+  } else if (keyCode === OPTION) {
+    tutorialScreen = 0;
   }
 }
 
