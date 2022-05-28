@@ -73,16 +73,20 @@ function draw() {
   text('Hosted By', 40, 760);
   textSize(50);
   text('Patrick Hibbert', 40, 800);
+  // Apply flashing text to guide user input
   strokeWeight(2);
   fill(200 + sin(frameCount*0.06) * 128);
   textSize(40);
   text('Press ENTER to Begin...', 1320, 810);
 
-  // Create the shape(s), position and style of the glasses
+  // Create the components, position and style of the glasses
   stroke(255);
   strokeWeight(3);
   noFill();
+  // Component: Left lens
   circle(615, 430, 440);
+  // Component: Right lens
   circle(1130, 430, 440);
+  // Component: Bridge
   arc(873, 408, 140, 140, PI + QUARTER_PI, TWO_PI - QUARTER_PI);
 }
