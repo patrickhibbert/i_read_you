@@ -85,14 +85,14 @@ function welcomeScreen() {
   
   // Text is used to welcome the user to the application
   textSize(40);
-  text('Welcome to...', 40, 60);
+  text('Welcome to...', 60, 60);
   fill(200);
   textSize(90);
-  text('"I Read You"', 40, 130);
+  text('"I Read You"', 60, 130);
   textSize(35);
-  text('Hosted By', 40, 760);
+  text('Hosted By', 60, 760);
   textSize(50);
-  text('Patrick Hibbert', 40, 800);
+  text('Patrick Hibbert', 60, 800);
   // Apply flashing text to guide user input
   strokeWeight(2);
   fill(200 + sin(frameCount*0.06) * 128);
@@ -116,8 +116,8 @@ function tutorialIntroScreen1() {
   // Explains the fundamentals of the program to the user
   background(30);
    // Apply flashing text to guide user input
-   strokeWeight(2);
-   fill(200 + sin(frameCount*0.06) * 128);
+   strokeWeight(1);
+   fill(200 + sin(frameCount*0.1) * 128);
    textSize(30);
    text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
 
@@ -128,8 +128,8 @@ function tutorialIntroScreen2() {
   // Explains the fundamentals of the program to the user
   background(30);
   // Apply flashing text to guide user input
-  strokeWeight(2);
-  fill(200 + sin(frameCount*0.06) * 128);
+  strokeWeight(1);
+  fill(200 + sin(frameCount*0.1) * 128);
   textSize(30);
   text('Click ANYWHERE to Begin...', 1374, 810);
 
