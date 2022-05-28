@@ -29,7 +29,6 @@ function setup() {
   textFont(font);
   background(30);
 
-
   // Setup for the flow field animation (constructed below)
   var density = 30
   var space = width / density
@@ -43,13 +42,18 @@ function setup() {
 }
 
 function draw() {
+  // Define the screens that will be displayed throughout the program
+  // These can be broken-down into 4 distinct categories
+  // (1). Welcome Screen, (2). Tutorial Intro, (3). Tutorial, (4). Tutorial Over
   if (tutorialScreen == 0) {
     welcomeScreen();
   } else if (tutorialScreen == 1) {
-    tutorialIntroScreen();
+    tutorialIntroScreen1();
   } else if (tutorialScreen == 2) {
-    tutorialScreen();
+    tutorialIntroScreen2();
   } else if (tutorialScreen == 3) {
+    tutorialScreen();
+  } else if (tutorialScreen == 4) {
     tutorialOverScreen();
     }
 }
@@ -106,21 +110,50 @@ function welcomeScreen() {
   arc(873, 408, 140, 140, PI + QUARTER_PI, TWO_PI - QUARTER_PI);
   }
 
-function tutorialIntroScreen() {
+function tutorialIntroScreen1() {
+  // Tutorial Intro page (1)
+  // Explains the fundamentals of the program to the user
+  background(30);
+   // Apply flashing text to guide user input
+   strokeWeight(2);
+   fill(200 + sin(frameCount*0.06) * 128);
+   textSize(30);
+   text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
+
+}
+
+function tutorialIntroScreen2() {
+  // Tutorial Intro page (2)
+  // Explains the fundamentals of the program to the user
+  background(30);
+  // Apply flashing text to guide user input
+  strokeWeight(2);
+  fill(200 + sin(frameCount*0.06) * 128);
+  textSize(40);
+  text('Press ENTER to Begin...', 1320, 810);
 }
 
 function tutorialScreen() {
+  // Tutorial Page / Canvas
+  // Full tutorial takes place on this page
+  background(30);
 }
 
 function tutorialOverScreen() {
 }
 
-function mousePressed() {
-  if (tutorialScreen == 0) {
-    startTutorialIntro();
+function keyPressed() {
+// when 'ENTER' is pressed at the welcome screen, the user 
+// is taken to the Tutorial Intro
+  if (keyCode === ENTER) {
+    tutorialScreen = 1;
+  } else if (keyCode === RIGHT_ARROW) {
+    tutorialScreen = 2;
+  } else if (keyCode === LEFT_ARROW) {
+    tutorialScreen = 1;
   }
 }
 
-function startTutorialIntro() {
+function startTutorialIntroScreen1() {
   tutorialScreen = 1;
-}
+  }
