@@ -46,8 +46,10 @@ function draw() {
   if (tutorialScreen == 0) {
     welcomeScreen();
   } else if (tutorialScreen == 1) {
-    tutorialScreen();
+    tutorialIntroScreen();
   } else if (tutorialScreen == 2) {
+    tutorialScreen();
+  } else if (tutorialScreen == 3) {
     tutorialOverScreen();
     }
 }
@@ -104,15 +106,21 @@ function welcomeScreen() {
   arc(873, 408, 140, 140, PI + QUARTER_PI, TWO_PI - QUARTER_PI);
   }
 
+function tutorialIntroScreen() {
+}
+
 function tutorialScreen() {
+}
+
+function tutorialOverScreen() {
 }
 
 function mousePressed() {
   if (tutorialScreen == 0) {
-    startTutorial();
+    startTutorialIntro();
   }
 }
 
-function startTutorial() {
+function startTutorialIntro() {
   tutorialScreen = 1;
 }
