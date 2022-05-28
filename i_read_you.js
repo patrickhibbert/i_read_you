@@ -33,11 +33,11 @@ function preload() {
 // Project setup elements (including Canvas and Video)
 function setup() {
   tutorialScreen =  0;
-  createCanvas(1750, 950);
+  createCanvas(1750, 980);
   textFont(font);
   background(30);
   video = createCapture(VIDEO);
-  video.size(640, 480);
+  video.size(700, 540);
   video.hide();
 
   flippedVideo = ml5.flipImage(video);
@@ -169,11 +169,17 @@ function tutorialCanvas() {
   // Tutorial Page / Canvas
   // Full tutorial takes place on this page
   background(30);
-  image(flippedVideo, 0, 0);
+  // Position the video feed on the tutorial page
+  image(flippedVideo, 920, 180);
   fill(255);
+  strokeWeight(1);
   textSize(16);
   textAlign(CENTER);
   text(label, width / 2, height - 4);
+  // Position the border for the video feed
+  noFill();
+  strokeWeight(7);
+  rect(914, 178, 710, 544, 20);
 }
 
 function classifyVideo() {
