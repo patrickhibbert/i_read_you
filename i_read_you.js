@@ -46,7 +46,8 @@ function setup() {
   flippedVideo = ml5.flipImage(video);
   classifyVideo();
 
-  img = loadImage('assets/auslan_b.png');
+  auslan_b = loadImage('assets/auslan_b.png');
+  computer = loadImage('assets/computer.png');
 
   // Setup for the flow field animation (constructed below)
   var density = 30
@@ -136,7 +137,7 @@ function tutorialIntroScreen1() {
   // Explains the fundamentals of the program to the user
   background(30); 
   // Flow field animation that will surround the text (sets the relaxing tone for the program)
-  var density = 20
+  var density = 30
   var space = width / density
 
   for (var x = 0; x < width; x += space) {
@@ -150,7 +151,7 @@ function tutorialIntroScreen1() {
 
   for (var i = 0; i < points.length; i++) {
 
-    var angle = map(noise(points[i].x * mult, points[i].y * mult), 0, 1, 0, 720)
+    var angle = map(noise(points[i].x * mult, points[i].y * mult), 100, 1, 1, 900)
 
     points[i].add(createVector(cos(angle), sin(angle)))
 
@@ -160,23 +161,19 @@ function tutorialIntroScreen1() {
   }
   // Framing surrounding text blocks (designed for legibiliy)
   fill(30);
+  stroke(255);
   rect(845, 160, 840, 112, 20);
   rect(845, 360, 840, 112, 20);
   rect(845, 560, 840, 112, 20);
-  rect(1180, 785, 520, 40, 20);
+  rect(1180, 783, 520, 40, 20);
 
   // Circular framing to surrounding imagery
   fill(30);
   stroke(255);
   ellipse(450, 420, 400, 400);
 
-  image(img, 305, 280, img.width / 7, img.height / 7)
-   // Apply flashing text to guide user input
-  strokeWeight(2);
-  stroke(255);
-  fill(255, 255, 0 + sin(frameCount*0.5) * 255);
-  textSize(30);
-  text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
+  // AUSLAN "B" image
+  image(auslan_b, 305, 280, auslan_b.width / 7, auslan_b.height / 7)
 
    // Introduction text (no effects applied)
   strokeWeight(1);
@@ -191,24 +188,63 @@ function tutorialIntroScreen1() {
    // Text Block (3)
   text('Nearly 20,000 people converse with AUSLAN each day.', 865, 600);
   text('This tutorial will show you just how easy it is!', 865, 650);
+  textSize(30);
+  text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
   }
 
 function tutorialIntroScreen2() {
   // Tutorial Intro page (2)
   // Explains the fundamentals of the program to the user
   background(30);
-  // Apply flashing text to guide user input
+
+  // Flow field animation that will surround the text (sets the relaxing tone for the program)
+  var density = 30
+  var space = width / density
+
+  for (var x = 0; x < width; x += space) {
+    for (var y = 0; y < height; y += space) {
+      var p = createVector(x, y)
+      points.push(p)
+    }
+  }
+  noStroke();
+  fill(255);
+
+  for (var i = 0; i < points.length; i++) {
+
+    var angle = map(noise(points[i].x * mult, points[i].y * mult), 100, 1, 1, 900)
+
+    points[i].add(createVector(cos(angle), sin(angle)))
+
+    // Defining the position of the flow field animation
+    ellipse(points[i].x, points[i].y, 1)
+    
+  }
+
+  // Framing surrounding text blocks
+  fill(30);
+  stroke(255);
+  rect(840, 330, 860, 165, 20);
+  rect(1449, 783, 240, 40, 20);
+
+  // Circular framing to surrounding imagery
+  fill(30);
+  stroke(255);
+  ellipse(450, 420, 400, 400);
+
+  // "Computer" image
+  image(computer, 305, 280, computer.width / 7, computer.height / 7)
+
+   // Explanatory text
   strokeWeight(1);
-  fill(255, 210, 0 + sin(frameCount*0.2) * 255);
+  fill(255, 210, 0);
+  textSize(40);
+   // Text Block
+  text('This tutorial uses the webcam to read your gestures.', 865, 370);
+  text('For accurate results, make sure you are in a well-lit', 865, 420);
+  text('space and the camera is positioned toward your hands.', 865, 470);
   textSize(30);
   text('Press "S" to Start...', 1464, 810);
-   // Explanatory text (no effects applied)
-   noFill();
-   textSize(40);
-   // Text Block
-   text('This tutorial uses the webcam to read your gestures.', 865, 370);
-   text('For accurate results, make sure you are in a well-lit', 865, 420);
-   text('space and the camera is positioned toward your hands.', 865, 470);
 }
 
 function tutorialCanvas() {
