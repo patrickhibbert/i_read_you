@@ -59,9 +59,20 @@ function setup() {
       points.push(p)
     }
   }
-  // Size and position of shapes used on the "Welcome Screen"
-  left_lens = new Circle(615, 445, 440);
-  right_lens = new Circle(1130, 445, 440);
+  // Size and position of circles used on the "Welcome Screen"
+  left_lens = new lens(615, 445, 440);
+  right_lens = new lens(1130, 445, 440);
+
+  // Size and position of rounded rectangles used for text boxes
+  text_box_1 = new text_box(845, 160, 840, 112, 20);
+  text_box_2 = new text_box(845, 360, 840, 112, 20);
+  text_box_3 = new text_box(845, 560, 840, 112, 20);
+  text_box_4 = new text_box(1180, 783, 520, 40, 20);
+
+  // Size and position of circle used for image frames
+  frame_1 = new circle_frame(450, 420, 400, 400);
+  frame_2 = new circle_frame(450, 420, 400, 400);
+  
 }
 
 function draw() {
@@ -86,7 +97,7 @@ function welcomeScreen() {
   // Flow field animation is used to set the tone of the project
   // Animation will be positioned inside the lenses of a pair of glasses (constructed below)
   noStroke()
-  fill(255)
+  fill(255, 210, 0)
 
   for (var i = 0; i < points.length; i++) {
 
@@ -106,6 +117,7 @@ function welcomeScreen() {
   }
   
   // Text is used to welcome the user to the application
+  fill(200);
   textSize(40);
   text('Welcome to...', 60, 60);
   fill(200);
@@ -116,9 +128,9 @@ function welcomeScreen() {
   textSize(50);
   text('Patrick Hibbert', 60, 800);
   // Apply flashing text to guide user input
-  strokeWeight(2);
-  fill(255, 210, 0 + sin(frameCount*0.1) * 255);
+  fill(255, 210, 0 + sin(frameCount*0.1) * 200);
   textSize(40);
+  stroke(40);
   text('Press ENTER to Begin...', 1320, 810);
 
   // Create the components, position and style of the glasses
@@ -146,6 +158,7 @@ function tutorialIntroScreen1() {
       points.push(p)
     }
   }
+  
   noStroke();
   fill(255);
 
@@ -157,20 +170,16 @@ function tutorialIntroScreen1() {
 
     // Defining the position of the flow field animation
     ellipse(points[i].x, points[i].y, 1)
-    
   }
-  // Framing surrounding text blocks (designed for legibiliy)
-  fill(30);
-  stroke(255);
-  rect(845, 160, 840, 112, 20);
-  rect(845, 360, 840, 112, 20);
-  rect(845, 560, 840, 112, 20);
-  rect(1180, 783, 520, 40, 20);
 
-  // Circular framing to surrounding imagery
-  fill(30);
-  stroke(255);
-  ellipse(450, 420, 400, 400);
+  // Framing surrounding text blocks (designed for legibiliy)
+  text_box_1.display()
+  text_box_2.display()
+  text_box_3.display()
+  text_box_4.display()
+  
+  // Circular framing for imagery
+  frame_1.display();
 
   // AUSLAN "B" image
   image(auslan_b, 305, 280, auslan_b.width / 7, auslan_b.height / 7)
@@ -207,6 +216,7 @@ function tutorialIntroScreen2() {
       points.push(p)
     }
   }
+
   noStroke();
   fill(255);
 
@@ -217,8 +227,7 @@ function tutorialIntroScreen2() {
     points[i].add(createVector(cos(angle), sin(angle)))
 
     // Defining the position of the flow field animation
-    ellipse(points[i].x, points[i].y, 1)
-    
+    ellipse(points[i].x, points[i].y, 1) 
   }
 
   // Framing surrounding text blocks
@@ -227,10 +236,8 @@ function tutorialIntroScreen2() {
   rect(840, 330, 860, 165, 20);
   rect(1449, 783, 240, 40, 20);
 
-  // Circular framing to surrounding imagery
-  fill(30);
-  stroke(255);
-  ellipse(450, 420, 400, 400);
+  // Circular framing for imagery
+  frame_2.display();
 
   // "Computer" image
   image(computer, 305, 280, computer.width / 7, computer.height / 7)
@@ -306,7 +313,8 @@ function startTutorialIntroScreen1() {
   tutorialScreen = 1;
   }
 
-class Circle {
+  // Class for "Lens" imagery used on the "Welcome Screen"
+class lens {
   constructor(x, y, size) {
     this.x = x;
     this.y = y;
@@ -317,3 +325,35 @@ class Circle {
     ellipse(this.x, this.y, this.size);
   }
 }
+
+// Class for text boxes used on "Tutorial Intro Screen(s)"
+class text_box {
+  constructor(x, y, width, height, tl) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.tl = tl;
+  }
+
+  display() {
+    stroke(255);
+    fill(30);
+    rect(this.x, this.y, this.width, this.height, this.tl);
+    }
+  }
+
+  // Class for circular frames used on "Tutorial Intro Screen(s)" to contain imagery
+class circle_frame {
+  constructor(x, y, size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+  }
+  
+  display() {
+    fill(30);
+    stroke(255);
+    ellipse(this.x, this.y, this.size);
+    }
+  }
