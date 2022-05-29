@@ -15,6 +15,9 @@ var points = []
 var mult = 0.005
 
 // Create and name variables
+let left_lens;
+let right_lens;
+let img;
 let video;
 let flippedVideo;
 let label = "";
@@ -43,6 +46,8 @@ function setup() {
   flippedVideo = ml5.flipImage(video);
   classifyVideo();
 
+  img = loadImage('assets/auslan_b.png');
+
   // Setup for the flow field animation (constructed below)
   var density = 30
   var space = width / density
@@ -53,6 +58,9 @@ function setup() {
       points.push(p)
     }
   }
+  // Size and position of shapes used on the "Welcome Screen"
+  left_lens = new Circle(615, 445, 440);
+  right_lens = new Circle(1130, 445, 440);
 }
 
 function draw() {
@@ -108,43 +116,81 @@ function welcomeScreen() {
   text('Patrick Hibbert', 60, 800);
   // Apply flashing text to guide user input
   strokeWeight(2);
-  fill(255, 210, 0 + sin(frameCount*0.2) * 255);
+  fill(255, 210, 0 + sin(frameCount*0.1) * 255);
   textSize(40);
   text('Press ENTER to Begin...', 1320, 810);
 
   // Create the components, position and style of the glasses
+  noFill();
   stroke(255);
   strokeWeight(3);
-  noFill();
-  // Component: Left lens
-  circle(615, 430, 440);
-  // Component: Right lens
-  circle(1130, 430, 440);
   // Component: Bridge
-  arc(873, 408, 140, 140, PI + QUARTER_PI, TWO_PI - QUARTER_PI);
+  arc(873, 418, 140, 140, PI + QUARTER_PI, TWO_PI - QUARTER_PI);
+  // Lenses of the glasses constructed in class ("Circle") below
+  left_lens.display();
+  right_lens.display();
   }
 
 function tutorialIntroScreen1() {
   // Tutorial Intro page (1)
   // Explains the fundamentals of the program to the user
-  background(30);
+  background(30); 
+  // Flow field animation that will surround the text (sets the relaxing tone for the program)
+  var density = 20
+  var space = width / density
+
+  for (var x = 0; x < width; x += space) {
+    for (var y = 0; y < height; y += space) {
+      var p = createVector(x, y)
+      points.push(p)
+    }
+  }
+  noStroke();
+  fill(255);
+
+  for (var i = 0; i < points.length; i++) {
+
+    var angle = map(noise(points[i].x * mult, points[i].y * mult), 0, 1, 0, 720)
+
+    points[i].add(createVector(cos(angle), sin(angle)))
+
+    // Defining the position of the flow field animation
+    ellipse(points[i].x, points[i].y, 1)
+    
+  }
+  // Framing surrounding text blocks (designed for legibiliy)
+  fill(30);
+  rect(845, 160, 840, 112, 20);
+  rect(845, 360, 840, 112, 20);
+  rect(845, 560, 840, 112, 20);
+  rect(1180, 785, 520, 40, 20);
+
+  // Circular framing to surrounding imagery
+  fill(30);
+  stroke(255);
+  ellipse(450, 420, 400, 400);
+
+  image(img, 305, 280, img.width / 7, img.height / 7)
    // Apply flashing text to guide user input
-   strokeWeight(1);
-   fill(255, 210, 0 + sin(frameCount*0.2) * 255);
-   textSize(30);
-   text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
+  strokeWeight(2);
+  stroke(255);
+  fill(255, 255, 0 + sin(frameCount*0.5) * 255);
+  textSize(30);
+  text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
+
    // Introduction text (no effects applied)
-   noFill();
-   textSize(40);
+  strokeWeight(1);
+  fill(255, 210, 0);
+  textSize(40);
    // Text Block (1)
-   text('"I Read You" is an application designed to teach people', 865, 200);
-   text('sign language (AUSLAN).', 865, 250);
+  text('"I Read You" is an application designed to teach people', 865, 200);
+  text('sign language (AUSLAN).', 865, 250);
    // Text Block (2)
-   text('AUSLAN is the predominant sign language of the', 865, 400);
-   text('Australian Deaf Community', 865, 450);
+  text('AUSLAN is the predominant sign language of the', 865, 400);
+  text('Australian Deaf Community', 865, 450);
    // Text Block (3)
-   text('Nearly 20,000 people converse with AUSLAN each day.', 865, 600);
-   text('This tutorial will show you just how easy it is!', 865, 650);
+  text('Nearly 20,000 people converse with AUSLAN each day.', 865, 600);
+  text('This tutorial will show you just how easy it is!', 865, 650);
   }
 
 function tutorialIntroScreen2() {
@@ -223,3 +269,15 @@ function keyTyped() {
 function startTutorialIntroScreen1() {
   tutorialScreen = 1;
   }
+
+class Circle {
+  constructor(x, y, size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+  }
+
+  display() {
+    ellipse(this.x, this.y, this.size);
+  }
+}
