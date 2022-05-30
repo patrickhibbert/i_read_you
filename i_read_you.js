@@ -299,6 +299,7 @@ function tutorialOverScreen() {
 }
 
 function incorrectAnswer() {
+  // Function that results in too many incorrect answers leading to "Tutorial Over Screen"
   answer -= answerIncorrect;
   if (answer <= 0) {
     tutorialOver();
