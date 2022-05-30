@@ -19,6 +19,7 @@ let left_lens;
 let right_lens;
 let img;
 let video;
+let vid;
 let flippedVideo;
 let label = "";
 let font;
@@ -46,9 +47,16 @@ function setup() {
   flippedVideo = ml5.flipImage(video);
   classifyVideo();
 
+  // Load Images to be used throughout the application
   auslan_b = loadImage('assets/auslan_b.png');
   computer = loadImage('assets/computer.png');
   demo = loadImage('assets/demo_image.png');
+  
+  // Load Video to be used throughout the application
+  vid = createVideo('assets/tutorial_video.mp4');
+
+  // Draw video to the Canvas instead of separate element
+  vid.hide();
 
   // Setup for the flow field animation (constructed below)
   var density = 30
@@ -68,11 +76,12 @@ function setup() {
   text_box_1 = new text_box(845, 160, 840, 112, 20);
   text_box_2 = new text_box(845, 360, 840, 112, 20);
   text_box_3 = new text_box(845, 560, 840, 112, 20);
-  text_box_4 = new text_box(1180, 783, 520, 40, 20);
-  text_box_5 = new text_box(840, 330, 860, 165, 20);
+  text_box_4 = new text_box(1380, 783, 300, 40, 20);
+  text_box_5 = new text_box(840, 343, 860, 165, 20);
   text_box_6 = new text_box(1449, 783, 240, 40, 20);
   text_box_7 = new text_box(590, 665, 580, 50, 20);
   text_box_8 = new text_box(480, 200, 800, 120, 20);
+  text_box_9 = new text_box(265, 640, 300, 40, 20);
 
   // Size and position of circle used for image frames
   frame_1 = new circle_frame(450, 420, 400, 400);
@@ -203,7 +212,7 @@ function tutorialIntroScreen1() {
   text('Nearly 20,000 people converse in AUSLAN every day.', 865, 600);
   text('This tutorial will show you just how easy it is!', 865, 650);
   textSize(30);
-  text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
+  text('Press "N" to Continue...', 1405, 810);
   textSize(50);
   strokeWeight(3);
   stroke(255, 190, 10)
@@ -243,26 +252,27 @@ function tutorialIntroScreen2() {
   // Framing surrounding text blocks
   text_box_5.display();
   text_box_6.display();
-
-  // Circular framing for imagery
-  frame_2.display();
-
-  // "Demo" image
-  image(demo, 333, 333, demo.width / 5.5, demo.height / 5.5)
-
-  // "Computer" image
-  image(computer, 268, 235, computer.width / 5.5, computer.height / 5.5)
+  text_box_9.display();
 
    // Explanatory text
   strokeWeight(1);
   fill(255, 210, 0);
   textSize(40);
    // Text Block
-  text('This tutorial uses the webcam to read your gestures.', 865, 370);
-  text('For accurate results, make sure you are in a well-lit', 865, 420);
-  text('space and the camera is focused on your hands.', 865, 470);
+  text('This tutorial uses the webcam to read your gestures.', 865, 382);
+  text('For accurate results, make sure you are in a well-lit', 865, 432);
+  text('space and the camera is focused on your hands.', 865, 482);
   textSize(30);
   text('Press "S" to Start...', 1464, 810);
+  text('Press OPTION to Play', 293, 667);
+
+  // Formatting for tutorial video playback
+  image(vid, 98, 240, vid.width / 3, vid.height / 3);
+
+  // Position the border for video playback
+  noFill();
+  strokeWeight(8);
+  rect(95, 240, 646, 364, 20);
 }
 
 function tutorialCanvas() {
@@ -365,12 +375,12 @@ function keyPressed() {
   // When 'ENTER' is pressed at the welcome screen, the user is taken to the Tutorial Intro
   if (keyCode === ENTER) {
     tutorialScreen = 1;
-  // Pressing the 'RIGHT_ARROW' key paginates next on the tutorial intro
-  } else if (keyCode === RIGHT_ARROW) {
-    tutorialScreen = 2;
   // Pressing the 'LEFT_ARROW' key paginates back on the tutorial intro
   } else if (keyCode === LEFT_ARROW) {
     tutorialScreen = 1;
+    // Pressing the 'OPTION' key plays the tutorial video
+  } else if (keyCode === OPTION) {
+    vid.play();
   }
 }
 
@@ -381,6 +391,8 @@ function keyTyped() {
   // When 'E' is typed, the tutorial ends and the "Tutorial Over Screen" is displayed
   } else if (key === 'e') {
     tutorialScreen = 4;
+  } else if (key === 'n') {
+    tutorialScreen = 2;
   }
 }
 
