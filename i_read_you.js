@@ -72,6 +72,7 @@ function setup() {
   text_box_5 = new text_box(840, 330, 860, 165, 20);
   text_box_6 = new text_box(1449, 783, 240, 40, 20);
   text_box_7 = new text_box(590, 665, 580, 50, 20);
+  text_box_8 = new text_box(480, 200, 800, 120, 20);
 
   // Size and position of circle used for image frames
   frame_1 = new circle_frame(450, 420, 400, 400);
@@ -300,14 +301,49 @@ function tutorialOverScreen() {
   // Tutorial Over Screen
   // Signals the end of the tutorial and offers the user the option to try again
   background(30);
-  text_box_7.display();
-  strokeWeight(1);
+
+  // Flow field animation colour has changed to signal the conclusion of the tutorial
+  var density = 30
+  var space = width / density
+
+  for (var x = 0; x < width; x += space) {
+    for (var y = 0; y < height; y += space) {
+      var p = createVector(x, y)
+      points.push(p)
+    }
+  }
+
+  noStroke();
   fill(255, 210, 0);
-  textSize(40);
+
+  for (var i = 0; i < points.length; i++) {
+
+    var angle = map(noise(points[i].x * mult, points[i].y * mult), 10, 0, 1, 1200)
+
+    points[i].add(createVector(cos(angle), sin(angle)))
+
+    // Defining the position of the flow field animation
+    ellipse(points[i].x, points[i].y, 1) 
+  }
+
+  // Display pre-sized text box
+  text_box_7.display();
+  text_box_8.display();
+
+  // Formatting for text
+  strokeWeight(2);
+  fill(255);
+  textSize(100);
+
+   // Text Block
+  text('Incredible Work!', 580, 282);
+
+
   // Apply flashing text to guide user input
-  fill(255, 210, 0 + sin(frameCount*0.1) * 200);
+  fill(255 + sin(frameCount*0.3) * 200);
   textSize(40);
   stroke(40);
+
   // Prompt to restart tutorial
   text('Click ANYWHERE to restart tutorial...', 620, 700);
 
