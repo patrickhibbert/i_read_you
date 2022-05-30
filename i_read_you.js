@@ -48,6 +48,7 @@ function setup() {
 
   auslan_b = loadImage('assets/auslan_b.png');
   computer = loadImage('assets/computer.png');
+  demo = loadImage('assets/demo_image.png');
 
   // Setup for the flow field animation (constructed below)
   var density = 30
@@ -68,6 +69,8 @@ function setup() {
   text_box_2 = new text_box(845, 360, 840, 112, 20);
   text_box_3 = new text_box(845, 560, 840, 112, 20);
   text_box_4 = new text_box(1180, 783, 520, 40, 20);
+  text_box_5 = new text_box(840, 330, 860, 165, 20);
+  text_box_6 = new text_box(1449, 783, 240, 40, 20);
 
   // Size and position of circle used for image frames
   frame_1 = new circle_frame(450, 420, 400, 400);
@@ -173,10 +176,10 @@ function tutorialIntroScreen1() {
   }
 
   // Framing surrounding text blocks (designed for legibiliy)
-  text_box_1.display()
-  text_box_2.display()
-  text_box_3.display()
-  text_box_4.display()
+  text_box_1.display();
+  text_box_2.display();
+  text_box_3.display();
+  text_box_4.display();
   
   // Circular framing for imagery
   frame_1.display();
@@ -193,9 +196,9 @@ function tutorialIntroScreen1() {
   text('sign language (AUSLAN).', 865, 250);
    // Text Block (2)
   text('AUSLAN is the predominant sign language of the', 865, 400);
-  text('Australian Deaf Community', 865, 450);
+  text('Australian Deaf Community.', 865, 450);
    // Text Block (3)
-  text('Nearly 20,000 people converse with AUSLAN each day.', 865, 600);
+  text('Nearly 20,000 people converse in AUSLAN every day.', 865, 600);
   text('This tutorial will show you just how easy it is!', 865, 650);
   textSize(30);
   text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
@@ -231,16 +234,17 @@ function tutorialIntroScreen2() {
   }
 
   // Framing surrounding text blocks
-  fill(30);
-  stroke(255);
-  rect(840, 330, 860, 165, 20);
-  rect(1449, 783, 240, 40, 20);
+  text_box_5.display();
+  text_box_6.display();
 
   // Circular framing for imagery
   frame_2.display();
 
+  // "Demo" image
+  image(demo, 333, 333, demo.width / 5.5, demo.height / 5.5)
+
   // "Computer" image
-  image(computer, 305, 280, computer.width / 7, computer.height / 7)
+  image(computer, 268, 235, computer.width / 5.5, computer.height / 5.5)
 
    // Explanatory text
   strokeWeight(1);
