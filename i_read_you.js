@@ -21,6 +21,8 @@ let left_lens;
 let right_lens;
 let img;
 let video;
+let switcher;
+let currentimage;
 let vid;
 let flippedVideo;
 let label = "";
@@ -82,7 +84,7 @@ function setup() {
   auslan_b = loadImage('assets/auslan_b.png');
   computer = loadImage('assets/computer.png');
   demo = loadImage('assets/demo_image.png');
-  a = loadImage('assets/a.jpg');
+  a = loadImage('assets/AUSLAN_signbank/a.jpg');
   
   // Load Video to be used throughout the application
   vid = createVideo('assets/tutorial_video.mp4');
