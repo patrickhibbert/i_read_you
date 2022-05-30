@@ -298,6 +298,13 @@ function gotResult(error, results) {
 function tutorialOverScreen() {
 }
 
+function incorrectAnswer() {
+  answer -= answerIncorrect;
+  if (answer <= 0) {
+    tutorialOver();
+  }
+}
+
 function keyPressed() {
   // When 'ENTER' is pressed at the welcome screen, the user is taken to the Tutorial Intro
   if (keyCode === ENTER) {
