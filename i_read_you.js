@@ -8,11 +8,13 @@
 //
 
 // Global variables
-var backgroundColour
-var mode
-var tutorialScreen
-var points = []
-var mult = 0.005
+var backgroundColour;
+var mode;
+var fade;
+var fadeAmount = 1;
+var tutorialScreen;
+var points = [];
+var mult = 0.005;
 
 // Create and name variables
 let left_lens;
@@ -27,6 +29,34 @@ let button;
 let classifier;
 let imageModelURL = 'https://teachablemachine.withgoogle.com/models/srEuXgicq/';
 
+// Variables to store images for each AUSLAN character
+let a;
+let b;
+let c;
+let d;
+let e;
+let f;
+let g;
+let h;
+let i;
+let j;
+let k;
+let l;
+let m;
+let n;
+let o;
+let p;
+let q;
+let r;
+let s;
+let t;
+let u;
+let v;
+let w;
+let x;
+let y;
+let z;
+
 // Fonts and sign language model are pre-loaded for use by the application
 // The assets directory is referenced as the location for each file
 function preload() {
@@ -37,6 +67,7 @@ function preload() {
 // Project setup elements (including Canvas and Video)
 function setup() {
   tutorialScreen =  0;
+  fade = 0;
   createCanvas(1750, 980);
   textFont(font);
   background(30);
@@ -51,6 +82,7 @@ function setup() {
   auslan_b = loadImage('assets/auslan_b.png');
   computer = loadImage('assets/computer.png');
   demo = loadImage('assets/demo_image.png');
+  a = loadImage('assets/a.jpg');
   
   // Load Video to be used throughout the application
   vid = createVideo('assets/tutorial_video.mp4');
@@ -84,10 +116,10 @@ function setup() {
   text_box_9 = new text_box(246, 640, 344, 40, 20);
   text_box_10 = new text_box(1277, 783, 348, 40, 20);
 
-  // Size and position of circle used for image frames
+  // Size and position of circle used for element frames
   frame_1 = new circle_frame(450, 420, 400, 400);
   frame_2 = new circle_frame(450, 420, 400, 400);
-  
+
 }
 
 function draw() {
@@ -197,7 +229,7 @@ function tutorialIntroScreen1() {
   frame_1.display();
 
   // AUSLAN "B" image
-  image(auslan_b, 305, 275, auslan_b.width / 7, auslan_b.height / 7)
+  image(auslan_b, 305, 275, auslan_b.width / 7, auslan_b.height / 7);
 
    // Introduction text (no effects applied)
   strokeWeight(1);
@@ -282,22 +314,26 @@ function tutorialCanvas() {
   background(30);
 
   // Framing surrounding text blocks
+  fill(255);
   text_box_10.display();
 
+  // Ellipse to contain gesture results
+  fill(255);
+  ellipse(750, 450, 150, 150);
+
   // User prompt text
+  textAlign(CENTER);
   strokeWeight(1);
   fill(255, 210, 0);
   textSize(30);
   text('Press ESC to End Session...', 1450, 810);
   
-
   // Position the video feed on the tutorial page
   image(flippedVideo, 920, 180);
-  fill(255);
-  strokeWeight(1);
-  textSize(16);
-  textAlign(CENTER);
-  text(label, width / 2, height - 4);
+  fill(30);
+  strokeWeight(3);
+  textSize(100);
+  text(label, 749, 472);
 
   // Position the border for the video feed
   noFill();
@@ -324,6 +360,7 @@ function tutorialOverScreen() {
   // Tutorial Over Screen
   // Signals the end of the tutorial and offers the user the option to try again
   background(30);
+  textAlign(CENTER);
 
   // Flow field animation colour has changed to signal the conclusion of the tutorial
   var density = 30
@@ -361,7 +398,6 @@ function tutorialOverScreen() {
    // Text Block
   text('Incredible Work!', 870, 282);
 
-
   // Apply flashing text to guide user input
   fill(255 + sin(frameCount*0.4) * 200);
   textSize(40);
@@ -370,14 +406,6 @@ function tutorialOverScreen() {
   // Prompt to restart tutorial
   text('Click ANYWHERE to restart tutorial...', 882, 700);
 
-}
-
-function incorrectAnswer() {
-  // Function that results in too many incorrect answers leading to "Tutorial Over Screen"
-  answer -= answerIncorrect;
-  if (answer <= 0) {
-    tutorialOver();
-  }
 }
 
 function restart() {
