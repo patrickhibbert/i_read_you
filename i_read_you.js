@@ -21,8 +21,10 @@ let left_lens;
 let right_lens;
 let img;
 let video;
+let parsley;
+let cilantro;
 let switcher;
-let currentimage;
+let currentImage;
 let vid;
 let flippedVideo;
 let label = "";
@@ -30,34 +32,6 @@ let font;
 let button;
 let classifier;
 let imageModelURL = 'https://teachablemachine.withgoogle.com/models/srEuXgicq/';
-
-// Variables to store images for each AUSLAN character
-let a;
-let b;
-let c;
-let d;
-let e;
-let f;
-let g;
-let h;
-let i;
-let j;
-let k;
-let l;
-let m;
-let n;
-let o;
-let p;
-let q;
-let r;
-let s;
-let t;
-let u;
-let v;
-let w;
-let x;
-let y;
-let z;
 
 // Fonts and sign language model are pre-loaded for use by the application
 // The assets directory is referenced as the location for each file
@@ -84,8 +58,10 @@ function setup() {
   auslan_b = loadImage('assets/auslan_b.png');
   computer = loadImage('assets/computer.png');
   demo = loadImage('assets/demo_image.png');
-  a = loadImage('assets/AUSLAN_signbank/a.jpg');
-  
+  cilantro = loadImage('assets/cilantro.jpg');
+  parsley = loadImage('assets/parsley.jpg');
+  currentImage = loadImage('assets/cilantro.jpg');
+ 
   // Load Video to be used throughout the application
   vid = createVideo('assets/tutorial_video.mp4');
 
@@ -124,6 +100,49 @@ function setup() {
 
 }
 
+function tutorialCanvas() {
+  // Tutorial Page / Canvas
+  // Full tutorial takes place on this page
+   // Store button in a variable
+  switcher = createButton('New Gesture');
+  
+  // Mouse Press activates button
+  switcher.mousePressed(changeImg);
+
+  // Position of Button
+  switcher.position(100, 100);
+
+  // Framing surrounding text blocks
+  fill(255);
+  text_box_10.display();
+
+  // Ellipse to contain gesture results
+  fill(255);
+  ellipse(750, 450, 150, 150);
+
+  
+
+  // User prompt text
+  textAlign(CENTER);
+  strokeWeight(1);
+  fill(255, 210, 0);
+  textSize(30);
+  text('Press ESC to End Session...', 1450, 810);
+  
+  // Position the video feed on the tutorial page
+  image(flippedVideo, 920, 180);
+  fill(30);
+  strokeWeight(3);
+  textSize(100);
+  text(label, 749, 472);
+
+  // Position the border for the video feed
+  noFill();
+  strokeWeight(7);
+  rect(914, 178, 710, 544, 20);
+  
+}
+
 function draw() {
   // Define the screens that will be displayed throughout the program
   // These can be broken-down into 4 distinct categories
@@ -145,6 +164,7 @@ function welcomeScreen() {
   // Welcome page / splash screen to introduce the user to the project
   // Flow field animation is used to set the tone of the project
   // Animation will be positioned inside the lenses of a pair of glasses (constructed below)
+  
   noStroke()
   fill(255, 210, 0)
 
@@ -310,39 +330,6 @@ function tutorialIntroScreen2() {
   rect(95, 240, 646, 364, 20);
 }
 
-function tutorialCanvas() {
-  // Tutorial Page / Canvas
-  // Full tutorial takes place on this page
-  background(30);
-
-  // Framing surrounding text blocks
-  fill(255);
-  text_box_10.display();
-
-  // Ellipse to contain gesture results
-  fill(255);
-  ellipse(750, 450, 150, 150);
-
-  // User prompt text
-  textAlign(CENTER);
-  strokeWeight(1);
-  fill(255, 210, 0);
-  textSize(30);
-  text('Press ESC to End Session...', 1450, 810);
-  
-  // Position the video feed on the tutorial page
-  image(flippedVideo, 920, 180);
-  fill(30);
-  strokeWeight(3);
-  textSize(100);
-  text(label, 749, 472);
-
-  // Position the border for the video feed
-  noFill();
-  strokeWeight(7);
-  rect(914, 178, 710, 544, 20);
-}
-
 function classifyVideo() {
   flippedVideo = ml5.flipImage(video)
   classifier.classify(flippedVideo, gotResult);
@@ -410,9 +397,29 @@ function tutorialOverScreen() {
 
 }
 
+//function to change images
+function changeImg(){
+  
+  //if currentImage is equal to cilantro, then change to parsley
+  //if it doesnt, then switch to cilantro
+  
+  if(currentImage == cilantro){
+    currentImage = parsley;
+  } else {
+    currentImage = cilantro;
+  }
+  
+  //
+ 
+  //draw the current image
+  // image(image,x,y,width,height);
+  image(currentImage,0,0,width,height);  
+}
+
 function restart() {
   tutorialScreen = 3;
 }
+
 
 function keyPressed() {
   // When 'ENTER' is pressed at the welcome screen, the user is taken to the Tutorial Intro
