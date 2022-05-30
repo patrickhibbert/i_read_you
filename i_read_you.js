@@ -71,6 +71,7 @@ function setup() {
   text_box_4 = new text_box(1180, 783, 520, 40, 20);
   text_box_5 = new text_box(840, 330, 860, 165, 20);
   text_box_6 = new text_box(1449, 783, 240, 40, 20);
+  text_box_7 = new text_box(590, 665, 580, 50, 20);
 
   // Size and position of circle used for image frames
   frame_1 = new circle_frame(450, 420, 400, 400);
@@ -296,6 +297,20 @@ function gotResult(error, results) {
 }
 
 function tutorialOverScreen() {
+  // Tutorial Over Screen
+  // Signals the end of the tutorial and offers the user the option to try again
+  background(30);
+  text_box_7.display();
+  strokeWeight(1);
+  fill(255, 210, 0);
+  textSize(40);
+  // Apply flashing text to guide user input
+  fill(255, 210, 0 + sin(frameCount*0.1) * 200);
+  textSize(40);
+  stroke(40);
+  // Prompt to restart tutorial
+  text('Click ANYWHERE to restart tutorial...', 620, 700);
+
 }
 
 function incorrectAnswer() {
@@ -304,6 +319,10 @@ function incorrectAnswer() {
   if (answer <= 0) {
     tutorialOver();
   }
+}
+
+function restart() {
+  tutorialScreen = 3;
 }
 
 function keyPressed() {
@@ -323,6 +342,15 @@ function keyTyped() {
   // When 'S' is typed, the tutorial screen is displayed
   if (key === 's') {
     tutorialScreen = 3;
+  // When 'E' is typed, the tutorial ends and the "Tutorial Over Screen" is displayed
+  } else if (key === 'e') {
+    tutorialScreen = 4;
+  }
+}
+
+function mousePressed() {
+  if (tutorialScreen == 4) {
+    restart();
   }
 }
 
