@@ -81,7 +81,8 @@ function setup() {
   text_box_6 = new text_box(1449, 783, 240, 40, 20);
   text_box_7 = new text_box(590, 665, 580, 50, 20);
   text_box_8 = new text_box(480, 200, 800, 120, 20);
-  text_box_9 = new text_box(265, 640, 300, 40, 20);
+  text_box_9 = new text_box(246, 640, 344, 40, 20);
+  text_box_10 = new text_box(1277, 783, 348, 40, 20);
 
   // Size and position of circle used for image frames
   frame_1 = new circle_frame(450, 420, 400, 400);
@@ -264,7 +265,7 @@ function tutorialIntroScreen2() {
   text('space and the camera is focused on your hands.', 865, 482);
   textSize(30);
   text('Press "S" to Start...', 1464, 810);
-  text('Press OPTION to Play', 293, 667);
+  text('Press OPTION to Play Video', 262, 667);
 
   // Formatting for tutorial video playback
   image(vid, 98, 240, vid.width / 3, vid.height / 3);
@@ -279,6 +280,17 @@ function tutorialCanvas() {
   // Tutorial Page / Canvas
   // Full tutorial takes place on this page
   background(30);
+
+  // Framing surrounding text blocks
+  text_box_10.display();
+
+  // User prompt text
+  strokeWeight(1);
+  fill(255, 210, 0);
+  textSize(30);
+  text('Press ESC to End Session...', 1450, 810);
+  
+
   // Position the video feed on the tutorial page
   image(flippedVideo, 920, 180);
   fill(255);
@@ -286,6 +298,7 @@ function tutorialCanvas() {
   textSize(16);
   textAlign(CENTER);
   text(label, width / 2, height - 4);
+
   // Position the border for the video feed
   noFill();
   strokeWeight(7);
@@ -346,16 +359,16 @@ function tutorialOverScreen() {
   textSize(100);
 
    // Text Block
-  text('Incredible Work!', 580, 282);
+  text('Incredible Work!', 870, 282);
 
 
   // Apply flashing text to guide user input
-  fill(255 + sin(frameCount*0.3) * 200);
+  fill(255 + sin(frameCount*0.4) * 200);
   textSize(40);
   stroke(40);
 
   // Prompt to restart tutorial
-  text('Click ANYWHERE to restart tutorial...', 620, 700);
+  text('Click ANYWHERE to restart tutorial...', 882, 700);
 
 }
 
@@ -381,6 +394,9 @@ function keyPressed() {
     // Pressing the 'OPTION' key plays the tutorial video
   } else if (keyCode === OPTION) {
     vid.play();
+    // Pressing the 'ESCAPE' key ends the tutorial
+  } else if (keyCode === ESCAPE) {
+    tutorialScreen = 4;
   }
 }
 
@@ -388,9 +404,7 @@ function keyTyped() {
   // When 'S' is typed, the tutorial screen is displayed
   if (key === 's') {
     tutorialScreen = 3;
-  // When 'E' is typed, the tutorial ends and the "Tutorial Over Screen" is displayed
-  } else if (key === 'e') {
-    tutorialScreen = 4;
+  // When 'N' is typed, paginate between Tutorial Introduction Screens
   } else if (key === 'n') {
     tutorialScreen = 2;
   }
