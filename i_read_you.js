@@ -185,7 +185,7 @@ function tutorialIntroScreen1() {
   frame_1.display();
 
   // AUSLAN "B" image
-  image(auslan_b, 305, 280, auslan_b.width / 7, auslan_b.height / 7)
+  image(auslan_b, 305, 275, auslan_b.width / 7, auslan_b.height / 7)
 
    // Introduction text (no effects applied)
   strokeWeight(1);
@@ -202,6 +202,11 @@ function tutorialIntroScreen1() {
   text('This tutorial will show you just how easy it is!', 865, 650);
   textSize(30);
   text('Press the RIGHT ARROW KEY to Continue...', 1205, 810);
+  textSize(50);
+  strokeWeight(3);
+  stroke(255, 190, 10)
+  fill(255, 190, 10);
+  text('B', 432, 550);
   }
 
 function tutorialIntroScreen2() {
@@ -253,7 +258,7 @@ function tutorialIntroScreen2() {
    // Text Block
   text('This tutorial uses the webcam to read your gestures.', 865, 370);
   text('For accurate results, make sure you are in a well-lit', 865, 420);
-  text('space and the camera is positioned toward your hands.', 865, 470);
+  text('space and the camera is focused on your hands.', 865, 470);
   textSize(30);
   text('Press "S" to Start...', 1464, 810);
 }
@@ -342,6 +347,7 @@ class text_box {
 
   display() {
     stroke(255);
+    strokeWeight(1);
     fill(30);
     rect(this.x, this.y, this.width, this.height, this.tl);
     }
