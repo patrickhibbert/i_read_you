@@ -10,8 +10,6 @@
 // Global variables
 var backgroundColour;
 var mode;
-var fade;
-var fadeAmount = 1;
 var tutorialScreen;
 var points = [];
 var mult = 0.005;
@@ -21,10 +19,6 @@ let left_lens;
 let right_lens;
 let img;
 let video;
-let parsley;
-let cilantro;
-let switcher;
-let currentImage;
 let vid;
 let flippedVideo;
 let label = "";
@@ -32,6 +26,7 @@ let font;
 let button;
 let classifier;
 let imageModelURL = 'https://teachablemachine.withgoogle.com/models/srEuXgicq/';
+
 
 // Fonts and sign language model are pre-loaded for use by the application
 // The assets directory is referenced as the location for each file
@@ -43,7 +38,6 @@ function preload() {
 // Project setup elements (including Canvas and Video)
 function setup() {
   tutorialScreen =  0;
-  fade = 0;
   createCanvas(1750, 980);
   textFont(font);
   background(30);
@@ -58,9 +52,7 @@ function setup() {
   auslan_b = loadImage('assets/auslan_b.png');
   computer = loadImage('assets/computer.png');
   demo = loadImage('assets/demo_image.png');
-  cilantro = loadImage('assets/cilantro.jpg');
-  parsley = loadImage('assets/parsley.jpg');
-  currentImage = loadImage('assets/cilantro.jpg');
+  
  
   // Load Video to be used throughout the application
   vid = createVideo('assets/tutorial_video.mp4');
@@ -87,7 +79,7 @@ function setup() {
   text_box_2 = new text_box(845, 360, 840, 112, 20);
   text_box_3 = new text_box(845, 560, 840, 112, 20);
   text_box_4 = new text_box(1380, 783, 300, 40, 20);
-  text_box_5 = new text_box(840, 343, 860, 165, 20);
+  text_box_5 = new text_box(840, 340, 860, 165, 20);
   text_box_6 = new text_box(1449, 783, 240, 40, 20);
   text_box_7 = new text_box(590, 665, 580, 50, 20);
   text_box_8 = new text_box(480, 200, 800, 120, 20);
@@ -100,17 +92,27 @@ function setup() {
 
 }
 
+function draw() {
+  // Define the screens that will be displayed throughout the program
+  // These can be broken-down into 4 distinct categories
+  // (1). Welcome Screen, (2). Tutorial Intro, (3). Tutorial, (4). Tutorial Over
+  if (tutorialScreen == 0) {
+    welcomeScreen();
+  } else if (tutorialScreen == 1) {
+    tutorialIntroScreen1();
+  } else if (tutorialScreen == 2) {
+    tutorialIntroScreen2();
+  } else if (tutorialScreen == 3) {
+    tutorialCanvas();
+  } else if (tutorialScreen == 4) {
+    tutorialOverScreen();
+    }
+}
+
 function tutorialCanvas() {
   // Tutorial Page / Canvas
   // Full tutorial takes place on this page
-   // Store button in a variable
-  switcher = createButton('New Gesture');
-  
-  // Mouse Press activates button
-  switcher.mousePressed(changeImg);
-
-  // Position of Button
-  switcher.position(100, 100);
+  background(30);
 
   // Framing surrounding text blocks
   fill(255);
@@ -119,8 +121,6 @@ function tutorialCanvas() {
   // Ellipse to contain gesture results
   fill(255);
   ellipse(750, 450, 150, 150);
-
-  
 
   // User prompt text
   textAlign(CENTER);
@@ -140,24 +140,21 @@ function tutorialCanvas() {
   noFill();
   strokeWeight(7);
   rect(914, 178, 710, 544, 20);
-  
 }
 
-function draw() {
-  // Define the screens that will be displayed throughout the program
-  // These can be broken-down into 4 distinct categories
-  // (1). Welcome Screen, (2). Tutorial Intro, (3). Tutorial, (4). Tutorial Over
-  if (tutorialScreen == 0) {
-    welcomeScreen();
-  } else if (tutorialScreen == 1) {
-    tutorialIntroScreen1();
-  } else if (tutorialScreen == 2) {
-    tutorialIntroScreen2();
-  } else if (tutorialScreen == 3) {
-    tutorialCanvas();
-  } else if (tutorialScreen == 4) {
-    tutorialOverScreen();
-    }
+function classifyVideo() {
+  flippedVideo = ml5.flipImage(video)
+  classifier.classify(flippedVideo, gotResult);
+  flippedVideo.remove();
+}
+
+function gotResult(error, results) {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  label = results[0].label;
+  classifyVideo();
 }
 
 function welcomeScreen() {
@@ -272,7 +269,7 @@ function tutorialIntroScreen1() {
   strokeWeight(3);
   stroke(255, 190, 10)
   fill(255, 190, 10);
-  text('B', 432, 550);
+  text('"B"', 422, 550);
   }
 
 function tutorialIntroScreen2() {
@@ -314,9 +311,9 @@ function tutorialIntroScreen2() {
   fill(255, 210, 0);
   textSize(40);
    // Text Block
-  text('This tutorial uses the webcam to read your gestures.', 865, 382);
-  text('For accurate results, make sure you are in a well-lit', 865, 432);
-  text('space and the camera is focused on your hands.', 865, 482);
+  text('This tutorial uses the webcam to read your gestures.', 865, 380);
+  text('For accurate results, make sure you are in a well-lit', 865, 430);
+  text('space and the camera is focused on your hands.', 865, 480);
   textSize(30);
   text('Press "S" to Start...', 1464, 810);
   text('Press OPTION to Play Video', 262, 667);
@@ -326,23 +323,9 @@ function tutorialIntroScreen2() {
 
   // Position the border for video playback
   noFill();
+  stroke(255);
   strokeWeight(8);
   rect(95, 240, 646, 364, 20);
-}
-
-function classifyVideo() {
-  flippedVideo = ml5.flipImage(video)
-  classifier.classify(flippedVideo, gotResult);
-  flippedVideo.remove();
-}
-
-function gotResult(error, results) {
-  if (error) {
-    console.error(error);
-    return;
-  }
-  label = results[0].label;
-  classifyVideo();
 }
 
 function tutorialOverScreen() {
@@ -397,25 +380,6 @@ function tutorialOverScreen() {
 
 }
 
-//function to change images
-function changeImg(){
-  
-  //if currentImage is equal to cilantro, then change to parsley
-  //if it doesnt, then switch to cilantro
-  
-  if(currentImage == cilantro){
-    currentImage = parsley;
-  } else {
-    currentImage = cilantro;
-  }
-  
-  //
- 
-  //draw the current image
-  // image(image,x,y,width,height);
-  image(currentImage,0,0,width,height);  
-}
-
 function restart() {
   tutorialScreen = 3;
 }
@@ -455,9 +419,9 @@ function mousePressed() {
 
 function startTutorialIntroScreen1() {
   tutorialScreen = 1;
-  }
+}
 
-  // Class for "Lens" imagery used on the "Welcome Screen"
+// Class for "Lens" imagery used on the "Welcome Screen"
 class lens {
   constructor(x, y, size) {
     this.x = x;
@@ -486,7 +450,7 @@ class text_box {
     fill(30);
     rect(this.x, this.y, this.width, this.height, this.tl);
     }
-  }
+}
 
   // Class for circular frames used on "Tutorial Intro Screen(s)" to contain imagery
 class circle_frame {
@@ -501,4 +465,4 @@ class circle_frame {
     stroke(255);
     ellipse(this.x, this.y, this.size);
     }
-  }
+}
