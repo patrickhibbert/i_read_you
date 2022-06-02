@@ -27,7 +27,7 @@ let button;
 let classifier;
 let imageModelURL = 'https://teachablemachine.withgoogle.com/models/srEuXgicq/';
 
-const NUM_IMGS = 10,
+const NUM_IMGS = 26,
   imgs = [];
 let currentImg = 0;
 
@@ -36,10 +36,34 @@ let currentImg = 0;
 function preload() {
   font = loadFont('assets/genos_font.ttf');
   classifier = ml5.imageClassifier(imageModelURL + 'model.json');
-  // Preload images for the tutorial screen
+  // Preload gesture images for the tutorial screen
   for (let i = 0; i < NUM_IMGS; i++) {
     imgs[i] = loadImage('assets/gestures/a.png');
-    imgs[1] = loadImage('assets/gestures/b.jpg');
+    imgs[1] = loadImage('assets/gestures/b.png');
+    imgs[2] = loadImage('assets/gestures/c.png');
+    imgs[3] = loadImage('assets/gestures/d.png');
+    imgs[4] = loadImage('assets/gestures/e.png');
+    imgs[5] = loadImage('assets/gestures/f.png');
+    imgs[6] = loadImage('assets/gestures/g.png');
+    imgs[7] = loadImage('assets/gestures/h.png');
+    imgs[8] = loadImage('assets/gestures/i.png');
+    imgs[9] = loadImage('assets/gestures/j.png');
+    imgs[10] = loadImage('assets/gestures/k.png');
+    imgs[11] = loadImage('assets/gestures/l.png');
+    imgs[12] = loadImage('assets/gestures/m.png');
+    imgs[13] = loadImage('assets/gestures/n.png');
+    imgs[14] = loadImage('assets/gestures/o.png');
+    imgs[15] = loadImage('assets/gestures/p.png');
+    imgs[16] = loadImage('assets/gestures/q.png');
+    imgs[17] = loadImage('assets/gestures/r.png');
+    imgs[18] = loadImage('assets/gestures/s.png');
+    imgs[19] = loadImage('assets/gestures/t.png');
+    imgs[20] = loadImage('assets/gestures/u.png');
+    imgs[21] = loadImage('assets/gestures/v.png');
+    imgs[22] = loadImage('assets/gestures/w.png');
+    imgs[23] = loadImage('assets/gestures/x.png');
+    imgs[24] = loadImage('assets/gestures/y.png');
+    imgs[25] = loadImage('assets/gestures/z.png');
   }
 }
 
@@ -52,6 +76,21 @@ function setup() {
   video = createCapture(VIDEO);
   video.size(700, 540);
   video.hide();
+
+   // Buttons to alternate between AUSLAN gestures
+   previous = createButton('Previous Gesture');
+   previous.position(140, 550);
+   
+   previous.mousePressed(_ => {
+     if (currentImg > 0) currentImg--;
+   });
+ 
+   next = createButton('Next Gesture');
+   next.position(365, 550);
+   
+   next.mousePressed(_ => {
+     if (currentImg < imgs.length - 1) currentImg++;
+   });
 
   flippedVideo = ml5.flipImage(video);
   classifyVideo();
@@ -93,6 +132,8 @@ function setup() {
   text_box_9 = new text_box(246, 640, 344, 40, 20);
   text_box_10 = new text_box(1277, 783, 348, 40, 20);
   text_box_11 = new text_box(650, 550, 200, 40, 20);
+  text_box_12 = new text_box(138, 620, 325, 200, 20);
+  text_box_13 = new text_box(138, 680, 325, 140, 20);
 
   // Size and position of circle used for element frames
   frame_1 = new circle_frame(450, 420, 400, 400);
@@ -100,8 +141,6 @@ function setup() {
   frame_3 = new circle_frame(750, 420, 165, 165);
   frame_4 = new circle_frame(750, 420, 185, 185);
   frame_5 = new circle_frame(750, 420, 215, 215);
-
-  setupButtons();
 }
 
 function draw() {
@@ -116,26 +155,9 @@ function draw() {
     tutorialIntroScreen2();
   } else if (tutorialScreen == 3) {
     tutorialCanvas();
-    image(imgs[currentImg], 150, 280, 300, 325);
   } else if (tutorialScreen == 4) {
     tutorialOverScreen();
     }
-}
-
-const setupButtons = _ => {
-  previous = createButton('Previous Gesture');
-  previous.position(width*0.5 - 100, height + 20);
-  
-  previous.mouseClicked(_ => {
-    if (currentImg > 0) currentImg--;
-  });
-
-  next = createButton('Next Gesture');
-  next.position(width*0.5 + 100, height + 20);
-  
-  next.mouseClicked(_ => {
-    if (currentImg < imgs.length - 1) currentImg++;
-  });
 }
 
 function tutorialCanvas() {
@@ -143,10 +165,16 @@ function tutorialCanvas() {
   // Full tutorial takes place on this page
   background(30);
 
+  // Show buttons created in set-up (toggled between AUSLAN gestures)
+  previous.show();
+  next.show();
+
   // Framing surrounding text blocks
   fill(255);
   text_box_10.display();
   text_box_11.display();
+  text_box_12.display();
+  text_box_13.display();
 
   // Framing around 'Your Result' element
   frame_5.display();
@@ -159,14 +187,19 @@ function tutorialCanvas() {
 
   // User prompt text
   textAlign(CENTER);
+  noStroke();
   strokeWeight(1);
   fill(255, 210, 0);
   textSize(30);
   text('Press ESC to End Session...', 1450, 810);
   text('Your Result', 750, 576.5);
+  text('Task:', 300, 660);
+  text('Toggle between gestures', 300, 720);
+  text('and recreate them', 300, 755);
+  text('yourself', 300, 790);
   
   // Position the video feed on the tutorial page
-  image(flippedVideo, 920, 180);
+  image(flippedVideo, 917, 180);
   fill(30);
   strokeWeight(3);
   textSize(100);
@@ -174,8 +207,18 @@ function tutorialCanvas() {
 
   // Position the border for the video feed
   noFill();
+  stroke(255);
   strokeWeight(7);
-  rect(914, 178, 710, 544, 20);
+  rect(914, 178, 707, 544, 20);
+
+  // Position gesture images / guidance on the screen
+  image(imgs[currentImg], 150, 185, 300, 325);
+
+  // Position the border for the gesture image feed
+  noFill();
+  stroke(255);
+  strokeWeight(10);
+  rect(146, 185, 308, 325, 20);
 }
 
 function classifyVideo() {
@@ -197,8 +240,6 @@ function welcomeScreen() {
   // Welcome page / splash screen to introduce the user to the project
   // Flow field animation is used to set the tone of the project
   // Animation will be positioned inside the lenses of a pair of glasses (constructed below)
-  
-
 
   noStroke()
   fill(255, 210, 0)
@@ -219,6 +260,10 @@ function welcomeScreen() {
      ellipse(points[i].x, points[i].y, 1)
     }
   }
+
+  // Hide buttons created in set-up (for Tutorial Screen)
+  previous.hide();
+  next.hide();
   
   // Text is used to welcome the user to the application
   fill(200);
@@ -252,6 +297,11 @@ function tutorialIntroScreen1() {
   // Tutorial Intro page (1)
   // Explains the fundamentals of the program to the user
   background(30); 
+
+  // Hide buttons created in set-up (for Tutorial Screen)
+  previous.hide();
+  next.hide();
+
   // Flow field animation that will surround the text (sets the relaxing tone for the program)
   var density = 30
   var space = width / density
@@ -290,6 +340,7 @@ function tutorialIntroScreen1() {
 
    // Introduction text (no effects applied)
   strokeWeight(1);
+  noStroke();
   fill(255, 210, 0);
   textSize(40);
    // Text Block (1)
@@ -314,6 +365,10 @@ function tutorialIntroScreen2() {
   // Tutorial Intro page (2)
   // Explains the fundamentals of the program to the user
   background(30);
+
+  // Hide buttons created in set-up (for Tutorial Screen)
+  previous.hide();
+  next.hide();
 
   // Flow field animation that will surround the text (sets the relaxing tone for the program)
   var density = 30
@@ -344,6 +399,11 @@ function tutorialIntroScreen2() {
   text_box_6.display();
   text_box_9.display();
 
+  // Creates backdrop before video loads (animation doesn't enter the "video frame")
+  fill(30);
+  noStroke();
+  rect(90, 235, 650, 370, 20);
+
    // Explanatory text
   strokeWeight(1);
   fill(255, 210, 0);
@@ -370,6 +430,11 @@ function tutorialOverScreen() {
   // Tutorial Over Screen
   // Signals the end of the tutorial and offers the user the option to try again
   background(30);
+
+  // Hide buttons created in set-up (for Tutorial Screen)
+  previous.hide();
+  next.hide();
+
   textAlign(CENTER);
 
   // Flow field animation colour has changed to signal the conclusion of the tutorial
@@ -396,6 +461,8 @@ function tutorialOverScreen() {
     ellipse(points[i].x, points[i].y, 1) 
   }
 
+  
+
   // Display pre-sized text box
   text_box_7.display();
   text_box_8.display();
@@ -409,13 +476,12 @@ function tutorialOverScreen() {
   text('Incredible Work!', 870, 282);
 
   // Apply flashing text to guide user input
-  fill(255 + sin(frameCount*0.4) * 200);
+  fill(255 + sin(frameCount*0.8) * 200);
   textSize(40);
   stroke(40);
 
   // Prompt to restart tutorial
   text('Click ANYWHERE to restart tutorial...', 882, 700);
-
 }
 
 function restart() {
