@@ -85,10 +85,14 @@ function setup() {
   text_box_8 = new text_box(480, 200, 800, 120, 20);
   text_box_9 = new text_box(246, 640, 344, 40, 20);
   text_box_10 = new text_box(1277, 783, 348, 40, 20);
+  text_box_11 = new text_box(650, 550, 200, 40, 20);
 
   // Size and position of circle used for element frames
   frame_1 = new circle_frame(450, 420, 400, 400);
   frame_2 = new circle_frame(450, 420, 400, 400);
+  frame_3 = new circle_frame(750, 420, 165, 165);
+  frame_4 = new circle_frame(750, 420, 185, 185);
+  frame_5 = new circle_frame(750, 420, 215, 215);
 
 }
 
@@ -117,10 +121,16 @@ function tutorialCanvas() {
   // Framing surrounding text blocks
   fill(255);
   text_box_10.display();
+  text_box_11.display();
 
+  // Framing around 'Your Result' element
+  frame_5.display();
+  frame_4.display();
+  frame_3.display();
+  
   // Ellipse to contain gesture results
   fill(255);
-  ellipse(750, 450, 150, 150);
+  ellipse(750, 420, 150, 150);
 
   // User prompt text
   textAlign(CENTER);
@@ -128,13 +138,14 @@ function tutorialCanvas() {
   fill(255, 210, 0);
   textSize(30);
   text('Press ESC to End Session...', 1450, 810);
+  text('Your Result', 750, 576.5);
   
   // Position the video feed on the tutorial page
   image(flippedVideo, 920, 180);
   fill(30);
   strokeWeight(3);
   textSize(100);
-  text(label, 749, 472);
+  text(label, 749, 442);
 
   // Position the border for the video feed
   noFill();
