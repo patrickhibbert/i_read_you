@@ -27,12 +27,20 @@ let button;
 let classifier;
 let imageModelURL = 'https://teachablemachine.withgoogle.com/models/srEuXgicq/';
 
+const NUM_IMGS = 10,
+  imgs = [];
+let currentImg = 0;
 
 // Fonts and sign language model are pre-loaded for use by the application
 // The assets directory is referenced as the location for each file
 function preload() {
   font = loadFont('assets/genos_font.ttf');
   classifier = ml5.imageClassifier(imageModelURL + 'model.json');
+  // Preload images for the tutorial screen
+  for (let i = 0; i < NUM_IMGS; i++) {
+    imgs[i] = loadImage('assets/gestures/a.png');
+    imgs[1] = loadImage('assets/gestures/b.jpg');
+  }
 }
 
 // Project setup elements (including Canvas and Video)
@@ -53,7 +61,6 @@ function setup() {
   computer = loadImage('assets/computer.png');
   demo = loadImage('assets/demo_image.png');
   
- 
   // Load Video to be used throughout the application
   vid = createVideo('assets/tutorial_video.mp4');
 
@@ -94,6 +101,7 @@ function setup() {
   frame_4 = new circle_frame(750, 420, 185, 185);
   frame_5 = new circle_frame(750, 420, 215, 215);
 
+  setupButtons();
 }
 
 function draw() {
@@ -108,9 +116,26 @@ function draw() {
     tutorialIntroScreen2();
   } else if (tutorialScreen == 3) {
     tutorialCanvas();
+    image(imgs[currentImg], 150, 280, 300, 325);
   } else if (tutorialScreen == 4) {
     tutorialOverScreen();
     }
+}
+
+const setupButtons = _ => {
+  previous = createButton('Previous Gesture');
+  previous.position(width*0.5 - 100, height + 20);
+  
+  previous.mouseClicked(_ => {
+    if (currentImg > 0) currentImg--;
+  });
+
+  next = createButton('Next Gesture');
+  next.position(width*0.5 + 100, height + 20);
+  
+  next.mouseClicked(_ => {
+    if (currentImg < imgs.length - 1) currentImg++;
+  });
 }
 
 function tutorialCanvas() {
@@ -173,6 +198,8 @@ function welcomeScreen() {
   // Flow field animation is used to set the tone of the project
   // Animation will be positioned inside the lenses of a pair of glasses (constructed below)
   
+
+
   noStroke()
   fill(255, 210, 0)
 
